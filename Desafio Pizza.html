@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Precificação de Pizzas</title>
+        <style>
+            /*CSS Reset*/
+            html,
+            body,
+            p,
+            ol,
+            ul,
+            li,
+            dl,
+            dt,
+            dd,
+            blockquote,
+            figure,
+            fieldset,
+            legend,
+            textarea,
+            pre,
+            iframe,
+            hr,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+            margin: 0;
+            padding: 0;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+            font-size: 100%;
+            font-weight: normal;
+            }
+
+            ul {
+            list-style: none;
+            }
+
+            button,
+            input,
+            select {
+            margin: 0;
+            }
+
+            html {
+            box-sizing: border-box;
+            }
+
+            *, *::before, *::after {
+            box-sizing: inherit;
+            }
+
+            img,
+            video {
+            height: auto;
+            max-width: 100%;
+            }
+
+            iframe {
+            border: 0;
+            }
+
+            table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            }
+
+            td,
+            th {
+            padding: 0;
+            }
+
+            /*Formatação Visual da Página*/
+
+            body{
+                padding: 5px; 
+                background: top;
+                background-repeat: no-repeat;
+                background-image: url(imagem.jpg);
+                background-size: 100vw auto;
+                background-attachment: fixed;
+            }
+
+            form{
+               justify-content: center;
+               align-items: center;
+               text-align: center;
+               padding-top: 160px;
+            }
+
+            .clFormataçãoVisual{
+                display: inline;
+                width: 232px;
+                background-color: rgba(255, 255, 255, 0.699);  
+                border-color: black;
+                border-style: dotted;        
+                border-radius: 10px;
+                padding-top: 5px;
+                padding-left: 2px;
+                padding-right: 2px;
+                padding-bottom: 5px;
+            }
+            
+            input, label{
+                display: block;
+                text-align: left;
+            }
+
+            div{
+                display: block;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                margin: 5px;
+                margin-bottom: 15px;
+            }
+
+            .clBotoes{
+                display: inline;
+                margin: 2px;
+                border: 2px;
+                margin-bottom: 5px;
+                border-color: rgb(85, 81, 81);
+                border-style: solid;
+                border-radius: 5px;
+                padding: 2px;
+            }
+
+            .clBotoes:hover{
+                background-color: rgba(78, 171, 252, 0.418);
+            }
+
+            .clOut{
+                display: block;
+                margin: 5px;
+                margin-top: 10px;
+               
+            }
+
+            #idSeçaoBotoes{
+                margin: 2px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <form action="">
+            <fieldset class="clFormataçãoVisual">
+                <div>
+                    <!--Campo de Captura do Nome da Pizza-->
+                    <label for="idNome">Inisira o Nome da Pizza</label>
+                    <input type="text" id="idNome" placeholder="Nome...">
+                </div>
+                <div>
+                    <!--Campo de Captura do Tamanho da Pizza-->
+                    <label for="idTamanho">Inisira o Tamanho da Pizza</label>
+                    <input type="number" id="idTamanho" step="0.01" placeholder="Diâmetro (cm)...">
+                </div>
+                <div>
+                    <!--Campo de Captura do Preço da Pizza-->
+                    <label for="idPreço">Inisira o Preço da Pizza</label>
+                    <input type="number" id="idPreço" step="0.01" placeholder="Preço...">
+                </div>
+                <section id="idSeçaoBotoes">
+                    <!--Botao de Leitura de Dados-->
+                    <div class="clBotoes" id="idBotaoLer">Ler Dados</div>                        
+                    
+                     <!--Botao de Leitura de Dados-->
+                    <div class="clBotoes" id="idBotaoComparar">Comparar Pizzas</div>                    
+                </section>
+            </fieldset>
+            <div class="clOut">
+                <!--Output de Tabela de Comparação-->
+                <output id="idOut"></output>
+            </div>
+        </form>
+    </body>
+    <script>
+        //Declaração de Variáveis Globais
+        var nome
+        var tamanho
+        var preço
+        var btLer = document.querySelector("#idBotaoLer")
+        var btComparar = document.querySelector("#idBotaoComparar")
+        var out = document.querySelector("#idOut")
+        out.value = "AAAAAAAAAAAAAAAA"
+
+        var nomes = []
+        var tamanhos = []
+        var preços = []
+
+        //Ocultação do Campo de Saída
+
+        document.querySelector("#idOut").hidden = true
+        
+        //Leitura dos campos da tela
+
+        btLer.onclick = function () {
+            nome = document.querySelector("#idNome").value
+            tamanho = Number(document.querySelector("#idTamanho").value)
+            preço = Number(document.querySelector("#idPreço").value)
+
+            let isNomeValido = validarNome(nome)
+            let isTamanhoValido = validarTamanho(tamanho)
+            let isPreçoValido = validarPreço(preço)
+
+            if (isNomeValido && isTamanhoValido && isPreçoValido) {
+                nomes.push(nome)
+                tamanhos.push(tamanho)
+                preços.push(preço)
+
+                document.querySelector("#idNome").value = ""
+                document.querySelector("#idTamanho").value = ""
+                document.querySelector("#idPreço").value = ""
+
+                console.log(nomes);
+                console.log(tamanhos);
+                console.log(preços);
+            }
+        }
+
+        //Validação de Campos
+
+        function validarNome(nome) {
+            if (nome == "" || nome == "") {
+                alert("Nome Inválido")
+                document.querySelector("#idNome").value = ""
+                document.querySelector("#idNome").focus()
+                return false
+            }
+            return true
+        }
+
+        function validarTamanho(tamanho) {
+            if (tamanho <= 0) {
+                alert("Tamanho Inválido")
+                document.querySelector("#idTamanho").value = ""
+                document.querySelector("#idTamanho").focus()
+                return false
+            }
+            return true
+        }
+
+        function validarPreço(preço) {
+            if (preço <= 0) {
+                alert("Preço Inválido")
+                document.querySelector("#idPreço").value = ""
+                document.querySelector("#idPreço").focus()
+                return false
+            }
+            return true
+        }
+
+        //Geração de Tabela de Comparação
+
+        btComparar.onclick = function () {
+            //Desocultação do Campo de Saída
+            document.querySelector("#idOut").hidden = false
+            out.classList.add("clFormataçãoVisual")
+        }
+
+    </script>
+</html>
