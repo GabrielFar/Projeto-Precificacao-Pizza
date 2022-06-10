@@ -195,7 +195,7 @@
         var btLer = document.querySelector("#idBotaoLer")
         var btComparar = document.querySelector("#idBotaoComparar")
         var out = document.querySelector("#idOut")
-        out.value = "AAAAAAAAAAAAAAAA"
+        var preçosEmOrdem
 
         var nomes = []
         var tamanhos = []
@@ -269,6 +269,15 @@
             //Desocultação do Campo de Saída
             document.querySelector("#idOut").hidden = false
             out.classList.add("clFormataçãoVisual")
+
+            preçosEmOrdem = OrdemPreços(preços)
+
+            console.log(preçosEmOrdem);
+        }
+         let teste = 0
+        function OrdemPreços(preços) {
+            preçosEmOrdem = preços.sort()
+            return preçosEmOrdem
         }
 
     </script>
