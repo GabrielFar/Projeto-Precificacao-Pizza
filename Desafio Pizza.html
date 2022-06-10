@@ -89,7 +89,7 @@
                 background: top;
                 background-repeat: no-repeat;
                 background-image: url(imagem.jpg);
-                background-size: 100vw auto;
+                background-size: auto;
                 background-attachment: fixed;
             }
 
@@ -161,7 +161,7 @@
                 <div>
                     <!--Campo de Captura do Nome da Pizza-->
                     <label for="idNome">Inisira o Nome da Pizza</label>
-                    <input type="text" id="idNome" placeholder="Nome...">
+                    <input type="text" id="idNome" placeholder="Nome..." autocomplete="off">
                 </div>
                 <div>
                     <!--Campo de Captura do Tamanho da Pizza-->
@@ -266,19 +266,49 @@
         //Geração de Tabela de Comparação
 
         btComparar.onclick = function () {
+            let ordenar
+
             //Desocultação do Campo de Saída
             document.querySelector("#idOut").hidden = false
             out.classList.add("clFormataçãoVisual")
 
-            preçosEmOrdem = OrdemPreços(preços)
+            //ordenar = OrdemDados(nomes, tamanhos, preços)
 
-            console.log(preçosEmOrdem);
+            //variáveis auxiliares
+            let placeHolderPreços = 0
+            let placeHolderTamanhos = 0
+            let placeHolderNomes = ""
+
+            //organização de dados em ordem crescente
+
+            for (let i = 0; i < preços.length; i++) { // num analisado
+                for (let index = 0; index < preços.length; index++) { // num comparado
+                    
+                    if (preços[i] < preços[index]){
+                        placeHolderPreços = preços[i]
+                        preços.splice(i, 1)
+                        preços.splice(index, 0, placeHolderPreços)
+
+                        placeHolderTamanhos = tamanhos[i]
+                        tamanhos.splice(i, 1)
+                        tamanhos.splice(index, 0, placeHolderTamanhos)
+
+                        placeHolderNomes = nomes[i]
+                        nomes.splice(i, 1)
+                        nomes.splice(index, 0, placeHolderNomes)
+
+                        index = preços.length
+                    }
+                }  
+            }
+        
+            
+            console.log(nomes);
+            console.log(tamanhos);
+            console.log(preços);            
         }
-         let teste = 0
-        function OrdemPreços(preços) {
-            preçosEmOrdem = preços.sort()
-            return preçosEmOrdem
-        }
+        
+        
 
     </script>
 </html>
