@@ -202,6 +202,7 @@
         var preços = [12, 2, 6]
         var areas = []
         var custosBeneficio = []
+        var diferençasCustoBene = ["Melhor CB"]
 
         console.log(areas);
 
@@ -273,12 +274,15 @@
             areas = calcularAreas(tamanhos)
 
             custosBeneficio = calcularCustosBeneficio(areas, preços)
+
+            diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
             console.log("Nome: " + nomes);
             console.log("Tamanho: " + tamanhos);
             console.log("Preço: " + preços);
             console.log("Area: " + areas);
-            console.log("Custo-Benefício: " + custosBeneficio);           
+            console.log("Custo-Benefício: " + custosBeneficio);
+            console.log("Diferença: " + diferençasCustoBene);           
         }
 
         //validação de campos
@@ -323,7 +327,7 @@
         }
 
         // calculo de custo-benefício
-        function calcularCustosBeneficio(areas, preço) {
+        function calcularCustosBeneficio(areas, preços) {
             for (let y = 0; y < preços.length; y++) {
                 let custoBeneficio = areas[y]/preços[y]
                 custosBeneficio.push(custoBeneficio.toFixed(2))
@@ -331,7 +335,14 @@
             return custosBeneficio
         }
 
-        
-        
+        //calculo de diferença de custo-benefício em porcentagem
+        function calcularDiferCustoBene(custosBeneficio) {
+            for (let z = 1; z < custosBeneficio.length; z++) {
+                let diferença = ((custosBeneficio[z-1]*100)/custosBeneficio[z]) - 100
+                diferençasCustoBene.push(diferença.toFixed(0) + "%")
+            }
+            return diferençasCustoBene
+        }   
+
     </script>
 </html>
