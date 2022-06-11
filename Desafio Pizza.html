@@ -197,15 +197,19 @@
         var out = document.querySelector("#idOut")
         var preçosEmOrdem
 
-        var nomes = []
-        var tamanhos = []
-        var preços = []
+        var nomes = ["a", "b", "c"]
+        var tamanhos = [1, 2, 3]
+        var preços = [12, 2, 6]
+        var areas = []
+        var custosBeneficio = []
+
+        console.log(areas);
 
         //Ocultação do Campo de Saída
 
         document.querySelector("#idOut").hidden = true
         
-        //Leitura dos campos da tela
+        //------------- Leitura dos campos da tela -------------
 
         btLer.onclick = function () {
             nome = document.querySelector("#idNome").value
@@ -231,7 +235,53 @@
             }
         }
 
-        //Validação de Campos
+        //--------------- Comparação de Dados ---------------
+
+        btComparar.onclick = function () {
+            //desocultação do campo de saída
+            document.querySelector("#idOut").hidden = false
+            out.classList.add("clFormataçãoVisual")
+
+            //---- Organização de Dados em Ordem Crescente ----
+
+            //variáveis auxiliares
+            let placeHolderPreços = 0
+            let placeHolderTamanhos = 0
+            let placeHolderNomes = ""
+            
+            for (let i = 0; i < preços.length; i++) { // dado analisado
+                for (let index = 0; index < preços.length; index++) { // dado comparado
+                    
+                    if (preços[i] < preços[index]){
+                        placeHolderPreços = preços[i]
+                        preços.splice(i, 1)
+                        preços.splice(index, 0, placeHolderPreços)
+
+                        placeHolderTamanhos = tamanhos[i]
+                        tamanhos.splice(i, 1)
+                        tamanhos.splice(index, 0, placeHolderTamanhos)
+
+                        placeHolderNomes = nomes[i]
+                        nomes.splice(i, 1)
+                        nomes.splice(index, 0, placeHolderNomes)
+
+                        index = preços.length
+                    }
+                }  
+            }
+
+            areas = calcularAreas(tamanhos)
+
+            custosBeneficio = calcularCustosBeneficio(areas, preços)
+            
+            console.log("Nome: " + nomes);
+            console.log("Tamanho: " + tamanhos);
+            console.log("Preço: " + preços);
+            console.log("Area: " + areas);
+            console.log("Custo-Benefício: " + custosBeneficio);           
+        }
+
+        //validação de campos
 
         function validarNome(nome) {
             if (nome == "" || nome == "") {
@@ -262,53 +312,26 @@
             }
             return true
         }
-
-        //Geração de Tabela de Comparação
-
-        btComparar.onclick = function () {
-            let ordenar
-
-            //Desocultação do Campo de Saída
-            document.querySelector("#idOut").hidden = false
-            out.classList.add("clFormataçãoVisual")
-
-            //ordenar = OrdemDados(nomes, tamanhos, preços)
-
-            //variáveis auxiliares
-            let placeHolderPreços = 0
-            let placeHolderTamanhos = 0
-            let placeHolderNomes = ""
-
-            //organização de dados em ordem crescente
-
-            for (let i = 0; i < preços.length; i++) { // num analisado
-                for (let index = 0; index < preços.length; index++) { // num comparado
-                    
-                    if (preços[i] < preços[index]){
-                        placeHolderPreços = preços[i]
-                        preços.splice(i, 1)
-                        preços.splice(index, 0, placeHolderPreços)
-
-                        placeHolderTamanhos = tamanhos[i]
-                        tamanhos.splice(i, 1)
-                        tamanhos.splice(index, 0, placeHolderTamanhos)
-
-                        placeHolderNomes = nomes[i]
-                        nomes.splice(i, 1)
-                        nomes.splice(index, 0, placeHolderNomes)
-
-                        index = preços.length
-                    }
-                }  
+        
+        // calculo de áreas das pizzas
+        function calcularAreas(tamanhos) {
+            for (let x = 0; x < tamanhos.length; x++) {
+                let area = (Math.PI)*(((tamanhos[x])/2)**2)
+                areas.push(area.toFixed(2))
             }
-        
-            
-            console.log(nomes);
-            console.log(tamanhos);
-            console.log(preços);            
+            return areas
         }
-        
-        
 
+        // calculo de custo-benefício
+        function calcularCustosBeneficio(areas, preço) {
+            for (let y = 0; y < preços.length; y++) {
+                let custoBeneficio = areas[y]/preços[y]
+                custosBeneficio.push(custoBeneficio.toFixed(2))
+            }
+            return custosBeneficio
+        }
+
+        
+        
     </script>
 </html>
