@@ -199,12 +199,10 @@
 
         var nomes = ["a", "b", "c"]
         var tamanhos = [1, 2, 3]
-        var preços = [12, 2, 6]
+        var preços = [8, 2, 4]
         var areas = []
         var custosBeneficio = []
         var diferençasCustoBene = ["Melhor CB"]
-
-        console.log(areas);
 
         //Ocultação do Campo de Saída
 
@@ -248,12 +246,22 @@
             //variáveis auxiliares
             let placeHolderPreços = 0
             let placeHolderTamanhos = 0
+            let placeholderCustoBene = 0
+            let placeholderArea = 0
             let placeHolderNomes = ""
-            
-            for (let i = 0; i < preços.length; i++) { // dado analisado
-                for (let index = 0; index < preços.length; index++) { // dado comparado
+
+            areas = calcularAreas(tamanhos)
+
+            custosBeneficio = calcularCustosBeneficio(areas, preços)
+
+            for (let i = 0; i < custosBeneficio.length; i++) { // dado analisado
+                for (let index = 0; index < custosBeneficio.length; index++) { // dado comparado
                     
-                    if (preços[i] < preços[index]){
+                    if (custosBeneficio[i] > custosBeneficio[index]){
+                        placeholderCustoBene = custosBeneficio[i]
+                        custosBeneficio.splice(i, 1)
+                        custosBeneficio.splice(index, 0, placeholderCustoBene)
+
                         placeHolderPreços = preços[i]
                         preços.splice(i, 1)
                         preços.splice(index, 0, placeHolderPreços)
@@ -266,14 +274,14 @@
                         nomes.splice(i, 1)
                         nomes.splice(index, 0, placeHolderNomes)
 
+                        placeholderArea = areas[i]
+                        areas.splice(i, 1)
+                        areas.splice(index, 0, placeholderArea)
+
                         index = preços.length
                     }
                 }  
             }
-
-            areas = calcularAreas(tamanhos)
-
-            custosBeneficio = calcularCustosBeneficio(areas, preços)
 
             diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
