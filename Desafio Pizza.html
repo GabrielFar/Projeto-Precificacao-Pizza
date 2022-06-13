@@ -241,8 +241,6 @@
             document.querySelector("#idOut").hidden = false
             out.classList.add("clFormataçãoVisual")
 
-            //---- Organização de Dados em Ordem Crescente ----
-
             //variáveis auxiliares
             let placeHolderPreços = 0
             let placeHolderTamanhos = 0
@@ -253,6 +251,8 @@
             areas = calcularAreas(tamanhos)
 
             custosBeneficio = calcularCustosBeneficio(areas, preços)
+
+            //---- Organização de Dados em Ordem Crescente ----
 
             for (let i = 0; i < custosBeneficio.length; i++) { // dado analisado
                 for (let index = 0; index < custosBeneficio.length; index++) { // dado comparado
