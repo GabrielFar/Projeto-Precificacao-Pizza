@@ -197,9 +197,9 @@
         var out = document.querySelector("#idOut")
         var preçosEmOrdem
 
-        var nomes = ["a", "b", "c"]
-        var tamanhos = [1, 2, 3]
-        var preços = [8, 2, 4]
+        var nomes = []
+        var tamanhos = []
+        var preços = []
         var areas = []
         var custosBeneficio = []
         var diferençasCustoBene = ["Melhor CB"]
@@ -248,7 +248,11 @@
             let placeholderArea = 0
             let placeholderCustoBene = 0
 
+            //chamada de função para calcular area
+
             areas = calcularAreas(tamanhos)
+
+            //chamada de função para calcular custo-benefício
 
             custosBeneficio = calcularCustosBeneficio(areas, preços)
 
@@ -282,13 +286,14 @@
                     }
                 }  
             }
+            //chamada de função para calcular diferença custo-benefício
 
             diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
             console.log("Nome: " + nomes);
             console.log("Tamanho: " + tamanhos);
-            console.log("Preço: " + preços);
-            console.log("Area: " + areas);
+            //console.log("Preço: " + preços);
+            //console.log("Area: " + areas);
             console.log("Custo-Benefício: " + custosBeneficio);
             console.log("Diferença: " + diferençasCustoBene);           
         }
