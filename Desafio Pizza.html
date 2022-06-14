@@ -112,11 +112,6 @@
                 padding-right: 2px;
                 padding-bottom: 5px;
             }
-            
-            input, label{
-                display: block;
-                text-align: left;
-            }
 
             div{
                 display: block;
@@ -153,6 +148,10 @@
                 margin: 2px;
             }
 
+            #idRetangulo{
+                margin-left: 10px;
+            }
+
         </style>
     </head>
     <body>
@@ -163,10 +162,20 @@
                     <label for="idNome">Inisira o Nome da Pizza</label>
                     <input type="text" id="idNome" placeholder="Nome..." autocomplete="off">
                 </div>
+                <div class="clRadioButton">
+                    <input type="radio" id="idCirculo" name="nmForma" checked>
+                    <label for="idCirculo">Círculo</label>
+                    <input type="radio" id="idRetangulo" name="nmForma">
+                    <label for="idRetangulo">Retângulo</label>
+                </div>
                 <div>
-                    <!--Campo de Captura do Tamanho da Pizza-->
+                    <!--Campo de Captura da Largura da Pizza-->
                     <label for="idTamanho">Inisira o Tamanho da Pizza</label>
-                    <input type="number" id="idTamanho" step="0.01" placeholder="Diâmetro (cm)...">
+                    <input type="number" id="idTamanho" step="0.01" placeholder="Largura (cm)...">
+                </div>
+                <div>
+                    <!--Campo de Captura da Altura da Pizza-->
+                    <input type="number" id="idTamanho2" step="0.01" placeholder="Altura (cm)...">
                 </div>
                 <div>
                     <!--Campo de Captura do Preço da Pizza-->
@@ -191,6 +200,7 @@
         //Declaração de Variáveis Globais
         var nome
         var tamanho
+        var tamanho2
         var preço
         var btLer = document.querySelector("#idBotaoLer")
         var btComparar = document.querySelector("#idBotaoComparar")
@@ -199,14 +209,15 @@
 
         var nomes = []
         var tamanhos = []
+        var tamanhos2 = []
         var preços = []
         var areas = []
         var custosBeneficio = []
         var diferençasCustoBene = ["Melhor CB"]
 
-        //Ocultação do Campo de Saída
+        //Ocultação do Campo Altura da Pizza
 
-        document.querySelector("#idOut").hidden = true
+        document.querySelector("#idTamanho2").hidden = true
         
         //------------- Leitura dos campos da tela -------------
 
@@ -238,7 +249,8 @@
 
         btComparar.onclick = function () {
             //desocultação do campo de saída
-            document.querySelector("#idOut").hidden = false
+
+            //document.querySelector("#idOut").hidden = false
             out.classList.add("clFormataçãoVisual")
 
             //variáveis auxiliares
