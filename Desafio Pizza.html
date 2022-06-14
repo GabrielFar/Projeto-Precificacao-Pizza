@@ -100,7 +100,7 @@
                padding-top: 160px;
             }
 
-            .clFormataçãoVisual{
+            fieldset{
                 display: inline;
                 width: 232px;
                 background-color: rgba(255, 255, 255, 0.699);  
@@ -137,36 +137,28 @@
                 background-color: rgba(78, 171, 252, 0.418);
             }
 
-            .clOut{
-                display: block;
-                margin: 5px;
-                margin-top: 10px;
-               
+            .clAtivado{
+                background-color: rgba(78, 252, 194, 0.418);;
             }
 
             #idSeçaoBotoes{
                 margin: 2px;
             }
 
-            #idRetangulo{
-                margin-left: 10px;
-            }
-
         </style>
     </head>
     <body>
         <form action="">
-            <fieldset class="clFormataçãoVisual">
+            <fieldset>
                 <div>
                     <!--Campo de Captura do Nome da Pizza-->
                     <label for="idNome">Inisira o Nome da Pizza</label>
                     <input type="text" id="idNome" placeholder="Nome..." autocomplete="off">
                 </div>
-                <div class="clRadioButton">
-                    <input type="radio" id="idCirculo" name="nmForma" checked>
-                    <label for="idCirculo">Círculo</label>
-                    <input type="radio" id="idRetangulo" name="nmForma">
-                    <label for="idRetangulo">Retângulo</label>
+                <div>
+                    <!--Campo de Seleção da Forma da Pizza-->
+                    <div class="clBotoes" id="idBotaoCirculo">Círculo</div>
+                    <div class="clBotoes" id="idBotaoRetangulo">Retângulo</div>
                 </div>
                 <div>
                     <!--Campo de Captura da Largura da Pizza-->
@@ -190,7 +182,7 @@
                     <div class="clBotoes" id="idBotaoComparar">Comparar Pizzas</div>                    
                 </section>
             </fieldset>
-            <div class="clOut">
+            <div>
                 <!--Output de Tabela de Comparação-->
                 <output id="idOut"></output>
             </div>
@@ -205,7 +197,9 @@
         var btLer = document.querySelector("#idBotaoLer")
         var btComparar = document.querySelector("#idBotaoComparar")
         var out = document.querySelector("#idOut")
-        var preçosEmOrdem
+        var btCirculo = document.querySelector("#idBotaoCirculo")
+        var btRetangulo = document.querySelector("#idBotaoRetangulo")
+        var isRetangulo = false
 
         var nomes = []
         var tamanhos = []
@@ -216,46 +210,71 @@
         var diferençasCustoBene = ["Melhor CB"]
 
         //Ocultação do Campo Altura da Pizza
-
         document.querySelector("#idTamanho2").hidden = true
+
+        //Adicionamento do Botão Círculo à classe Ativado
+        btCirculo.classList.add("clAtivado")
+
+        //Decisão de formato de pizza
+
+        btCirculo.onclick = function () {
+            document.querySelector("#idTamanho2").hidden = true
+            document.querySelector("#idTamanho2").value = ""
+            btRetangulo.classList.remove("clAtivado")
+            btCirculo.classList.add("clAtivado")
+            isRetangulo = false
+        }
+
+        btRetangulo.onclick = function () {
+            document.querySelector("#idTamanho2").hidden = false
+            btRetangulo.classList.add("clAtivado")
+            btCirculo.classList.remove("clAtivado")
+            isRetangulo = true
+        }
         
         //------------- Leitura dos campos da tela -------------
 
         btLer.onclick = function () {
             nome = document.querySelector("#idNome").value
             tamanho = Number(document.querySelector("#idTamanho").value)
+            tamanho2 = Number(document.querySelector("#idTamanho2").value)
             preço = Number(document.querySelector("#idPreço").value)
 
             let isNomeValido = validarNome(nome)
             let isTamanhoValido = validarTamanho(tamanho)
+            let isTamanho2Valido
+            if (isRetangulo) {
+                isTamanho2Valido = validarTamanho2(tamanho2)
+            }
             let isPreçoValido = validarPreço(preço)
 
-            if (isNomeValido && isTamanhoValido && isPreçoValido) {
+            if (isNomeValido && isTamanhoValido && isPreçoValido && isTamanho2Valido) {
+                if (isRetangulo) {                    
+                    document.querySelector("#idTamanho2").value = ""
+                }
                 nomes.push(nome)
                 tamanhos.push(tamanho)
                 preços.push(preço)
+                tamanhos2.push(tamanho2)
 
                 document.querySelector("#idNome").value = ""
                 document.querySelector("#idTamanho").value = ""
                 document.querySelector("#idPreço").value = ""
 
-                console.log(nomes);
-                console.log(tamanhos);
-                console.log(preços);
             }
+            console.log(nomes);
+            console.log(tamanhos);
+            console.log(preços);
         }
 
         //--------------- Comparação de Dados ---------------
 
         btComparar.onclick = function () {
-            //desocultação do campo de saída
-
-            //document.querySelector("#idOut").hidden = false
-            out.classList.add("clFormataçãoVisual")
 
             //variáveis auxiliares
             let placeHolderPreços = 0
             let placeHolderTamanhos = 0
+            let placeHolderTamanhos2 = 0
             let placeHolderNomes = ""
             let placeholderArea = 0
             let placeholderCustoBene = 0
@@ -294,6 +313,12 @@
                         areas.splice(i, 1)
                         areas.splice(index, 0, placeholderArea)
 
+                        if (isRetangulo) {
+                            placeHolderTamanhos2 = tamanhos2[i]
+                            tamanhos2.splice(i, 1)
+                            tamanhos2.splice(index, 0, placeHolderTamanhos2)
+                        }
+
                         index = preços.length
                     }
                 }  
@@ -324,9 +349,19 @@
 
         function validarTamanho(tamanho) {
             if (tamanho <= 0) {
-                alert("Tamanho Inválido")
+                alert("Largura Inválida")
                 document.querySelector("#idTamanho").value = ""
                 document.querySelector("#idTamanho").focus()
+                return false
+            }
+            return true
+        }
+
+        function validarTamanho2(tamanho2) {
+            if (tamanho2 <= 0) {
+                alert("Altura Inválida")
+                document.querySelector("#idTamanho2").value = ""
+                document.querySelector("#idTamanho2").focus()
                 return false
             }
             return true
