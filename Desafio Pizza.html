@@ -242,16 +242,14 @@
 
             let isNomeValido = validarNome(nome)
             let isTamanhoValido = validarTamanho(tamanho)
-            let isTamanho2Valido
+            let isTamanho2Valido = true
             if (isRetangulo) {
                 isTamanho2Valido = validarTamanho2(tamanho2)
             }
             let isPreçoValido = validarPreço(preço)
 
-            if (isNomeValido && isTamanhoValido && isPreçoValido) {
-                if (isRetangulo && isTamanho2Valido) {                    
-                    document.querySelector("#idTamanho2").value = ""
-                }
+            if (isNomeValido && isTamanhoValido && isPreçoValido && isTamanho2Valido) {
+
                 nomes.push(nome)
                 tamanhos.push(tamanho)
                 preços.push(preço)
@@ -260,10 +258,11 @@
                 document.querySelector("#idNome").value = ""
                 document.querySelector("#idTamanho").value = ""
                 document.querySelector("#idPreço").value = ""
-
+                document.querySelector("#idTamanho2").value = ""
             }
             console.log(nomes);
             console.log(tamanhos);
+            console.log(tamanhos2);
             console.log(preços);
         }
 
@@ -279,9 +278,11 @@
             let placeholderArea = 0
             let placeholderCustoBene = 0
 
+            limpezaVariaveis()
+
             //chamada de função para calcular area
 
-            areas = calcularAreas(tamanhos)
+            areas = calcularAreas(tamanhos, tamanhos2)
 
             //chamada de função para calcular custo-benefício
 
@@ -328,7 +329,7 @@
             diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
             console.log("Nome: " + nomes);
-            console.log("Tamanho: " + tamanhos);
+            console.log("Tamanho: " + tamanhos + tamanhos2);
             //console.log("Preço: " + preços);
             //console.log("Area: " + areas);
             console.log("Custo-Benefício: " + custosBeneficio);
@@ -378,10 +379,15 @@
         }
         
         // calculo de áreas das pizzas
-        function calcularAreas(tamanhos) {
+        function calcularAreas() {
             for (let x = 0; x < tamanhos.length; x++) {
-                let area = (Math.PI)*(((tamanhos[x])/2)**2)
-                areas.push(area.toFixed(2))
+                if (tamanhos2[x] !== 0) {
+                    let area = tamanhos[x] * tamanhos2[x]
+                    areas.push(area.toFixed(2))  
+                } else {
+                    let area = (Math.PI)*(((tamanhos[x])/2)**2) 
+                    areas.push(area.toFixed(2))   
+                }        
             }
             return areas
         }
@@ -403,6 +409,12 @@
             }
             return diferençasCustoBene
         }   
+
+        function limpezaVariaveis() {
+            areas = []
+            custosBeneficio = []
+            diferençasCustoBene = ["Melhor CB"]
+        }
 
     </script>
 </html>
