@@ -204,6 +204,7 @@
         var nomes = []
         var tamanhos = []
         var tamanhos2 = []
+        var tamanhosFinais = []
         var preços = []
         var areas = []
         var custosBeneficio = []
@@ -277,6 +278,7 @@
             let placeHolderNomes = ""
             let placeholderArea = 0
             let placeholderCustoBene = 0
+            let placeholderTamanhosFinais = 0
 
             limpezaVariaveis()
 
@@ -320,6 +322,10 @@
                             tamanhos2.splice(index, 0, placeHolderTamanhos2)
                         }
 
+                        placeholderTamanhosFinais = tamanhosFinais[i]
+                        tamanhosFinais.splice(i, 1)
+                        tamanhosFinais.splice(index, 0, placeholderTamanhosFinais)
+
                         index = preços.length
                     }
                 }  
@@ -328,12 +334,10 @@
 
             diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
-            console.log("Nome: " + nomes);
-            console.log("Tamanho: " + tamanhos + tamanhos2);
-            //console.log("Preço: " + preços);
-            //console.log("Area: " + areas);
-            console.log("Custo-Benefício: " + custosBeneficio);
-            console.log("Diferença: " + diferençasCustoBene);           
+            console.log("Nomes: " + nomes);
+            console.log("Tamanhos: " + tamanhosFinais);
+            console.log("Custos-Benefício: " + custosBeneficio);
+            console.log("Diferenças: " + diferençasCustoBene);           
         }
 
         //validação de campos
@@ -383,9 +387,11 @@
             for (let x = 0; x < tamanhos.length; x++) {
                 if (tamanhos2[x] !== 0) {
                     let area = tamanhos[x] * tamanhos2[x]
+                    tamanhosFinais.push(tamanhos[x] + "x" + tamanhos2[x])
                     areas.push(area.toFixed(2))  
                 } else {
                     let area = (Math.PI)*(((tamanhos[x])/2)**2) 
+                    tamanhosFinais.push(tamanhos[x])
                     areas.push(area.toFixed(2))   
                 }        
             }
@@ -414,6 +420,7 @@
             areas = []
             custosBeneficio = []
             diferençasCustoBene = ["Melhor CB"]
+            tamanhosFinais = []
         }
 
     </script>
