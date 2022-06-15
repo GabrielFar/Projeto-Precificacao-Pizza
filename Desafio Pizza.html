@@ -211,7 +211,7 @@
 
         //Ocultação do Campo Altura da Pizza
         document.querySelector("#idTamanho2").hidden = true
-
+        
         //Adicionamento do Botão Círculo à classe Ativado
         btCirculo.classList.add("clAtivado")
 
@@ -248,8 +248,8 @@
             }
             let isPreçoValido = validarPreço(preço)
 
-            if (isNomeValido && isTamanhoValido && isPreçoValido && isTamanho2Valido) {
-                if (isRetangulo) {                    
+            if (isNomeValido && isTamanhoValido && isPreçoValido) {
+                if (isRetangulo && isTamanho2Valido) {                    
                     document.querySelector("#idTamanho2").value = ""
                 }
                 nomes.push(nome)
