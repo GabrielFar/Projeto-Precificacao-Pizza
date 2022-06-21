@@ -122,6 +122,14 @@
                 margin-bottom: 15px;
             }
 
+            th, tr, thead, table {
+                border: 2px;
+                border-style: solid;
+                border-color: black;
+                padding: 5px;
+                background-color: rgba(255, 255, 255, 0.185);;
+            }
+
             .clBotoes{
                 display: inline;
                 margin: 2px;
@@ -144,6 +152,7 @@
             #idSeçaoBotoes{
                 margin: 2px;
             }
+
 
         </style>
     </head>
@@ -182,9 +191,22 @@
                     <div class="clBotoes" id="idBotaoComparar">Comparar Pizzas</div>                    
                 </section>
             </fieldset>
+            <div></div>
             <div>
                 <!--Output de Tabela de Comparação-->
-                <output id="idOut"></output>
+                <output id="idOut">
+                    <table id="idTable">
+                        <thead id="idTableHead">
+                            <tr class="clTrPizzasHead">
+                                <th class="clThNome">Nome</th>
+                                <th class="clThTamanho">Tamanho (cm)</th>
+                                <th class="clThPreçoe">Preço (R$)</th>
+                                <th class="clThCustoBene">R$ p/cm²</th>
+                                <th class="clThDifeCustoBene">Diferença %</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </output>
             </div>
         </form>
     </body>
@@ -210,8 +232,9 @@
         var custosBeneficio = []
         var diferençasCustoBene = ["Melhor CB"]
 
-        //Ocultação do Campo Altura da Pizza
+        //Ocultação do Campo Altura da Pizza e OutPut
         document.querySelector("#idTamanho2").hidden = true
+        out.hidden = true
         
         //Adicionamento do Botão Círculo à classe Ativado
         btCirculo.classList.add("clAtivado")
@@ -333,7 +356,9 @@
             console.log("Nomes: " + nomes);
             console.log("Tamanhos: " + tamanhosFinais);
             console.log("Custos-Benefício: " + custosBeneficio);
-            console.log("Diferenças: " + diferençasCustoBene);           
+            console.log("Diferenças: " + diferençasCustoBene);
+            
+            
         }
 
         //validação de campos
