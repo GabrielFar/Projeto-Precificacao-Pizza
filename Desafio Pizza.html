@@ -100,7 +100,7 @@
                padding-top: 160px;
             }
 
-            fieldset{
+            .clField{
                 display: inline;
                 width: 232px;
                 background-color: rgba(255, 255, 255, 0.699);  
@@ -127,7 +127,7 @@
                 border-style: solid;
                 border-color: black;
                 padding: 5px;
-                background-color: rgba(255, 255, 255, 0.185);;
+                background-color: rgba(255, 255, 255, 0.274);;
             }
 
             .clBotoes{
@@ -158,7 +158,7 @@
     </head>
     <body>
         <form action="">
-            <fieldset>
+            <fieldset class="clField">
                 <div>
                     <!--Campo de Captura do Nome da Pizza-->
                     <label for="idNome">Inisira o Nome da Pizza</label>
@@ -192,22 +192,24 @@
                 </section>
             </fieldset>
             <div></div>
-            <div>
-                <!--Output de Tabela de Comparação-->
-                <output id="idOut">
-                    <table id="idTable">
-                        <thead id="idTableHead">
-                            <tr class="clTrPizzasHead">
-                                <th class="clThNome">Nome</th>
-                                <th class="clThTamanho">Tamanho (cm)</th>
-                                <th class="clThPreçoe">Preço (R$)</th>
-                                <th class="clThCustoBene">R$ p/cm²</th>
-                                <th class="clThDifeCustoBene">Diferença %</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </output>
-            </div>
+            <fieldset id="idFieldOut">
+                <div>
+                    <!--Output de Tabela de Comparação-->
+                    <output id="idOut">
+                        <table id="idTable">
+                            <thead id="idTableHead">
+                                <tr class="clTrPizzasHead">
+                                    <th class="clThNome">Nome</th>
+                                    <th class="clThTamanho">Tamanho (cm)</th>
+                                    <th class="clThPreços">Preço (R$)</th>
+                                    <th class="clThCustoBene">R$ p/cm²</th>
+                                    <th class="clThDifeCustoBene">Diferença %</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </output>
+                </div>
+            </fieldset>
         </form>
     </body>
     <script>
@@ -222,6 +224,9 @@
         var btCirculo = document.querySelector("#idBotaoCirculo")
         var btRetangulo = document.querySelector("#idBotaoRetangulo")
         var isRetangulo = false
+        var pizzaTr
+        var pizzaTable = document.querySelector("#idTable")
+        var indexador = 0
 
         var nomes = []
         var tamanhos = []
@@ -353,13 +358,21 @@
 
             diferençasCustoBene = calcularDiferCustoBene(custosBeneficio)
             
-            console.log("Nomes: " + nomes);
-            console.log("Tamanhos: " + tamanhosFinais);
-            console.log("Custos-Benefício: " + custosBeneficio);
-            console.log("Diferenças: " + diferençasCustoBene);
+            //criar nova linha para a tabela
+            indexador = 0
             
-            
+            for (let index = 0; index < diferençasCustoBene.length; index++) {
+                pizzaTr = montaTr(nomes, tamanhosFinais, preços, custosBeneficio, diferençasCustoBene)
+
+                //inserir linha na tabela
+                pizzaTable.appendChild(pizzaTr)  
+            }            
+            out.hidden = false
+
+            document.querySelector("#idFieldOut").classList.add("clField")
         }
+
+        // ------------------funções------------------
 
         //validação de campos
 
@@ -444,5 +457,30 @@
             tamanhosFinais = []
         }
 
+        //Cria uma linha (um tr)
+        function montaTr(nomes, tamanhosFinais, preços, custosBeneficio, diferençasCustoBene){
+            let pizzaTr = document.createElement("tr")
+
+            pizzaTr.classList.add("clTrPizzasHead")
+            
+            pizzaTr.appendChild(montaTd(nomes[indexador], "clThNome"))
+            pizzaTr.appendChild(montaTd(tamanhosFinais[indexador], "clThTamanho"))
+            pizzaTr.appendChild(montaTd(preços[indexador], "clThPreços"))
+            pizzaTr.appendChild(montaTd(custosBeneficio[indexador], "clThCustoBene"))
+            pizzaTr.appendChild(montaTd(diferençasCustoBene[indexador], "clThDifeCustoBene"))
+
+            indexador++
+
+            return pizzaTr   
+        }
+
+        //Cria uma coluna (um td)
+        function montaTd(dado, classe){
+            let pizzaTd = document.createElement("td")
+            pizzaTd.textContent = dado
+            pizzaTd.classList.add(classe)
+                
+            return pizzaTd
+        }
     </script>
 </html>
