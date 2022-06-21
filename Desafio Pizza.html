@@ -100,17 +100,8 @@
                padding-top: 160px;
             }
 
-            .clField{
-                display: inline;
-                width: 232px;
-                background-color: rgba(255, 255, 255, 0.699);  
-                border-color: black;
-                border-style: dotted;        
-                border-radius: 10px;
-                padding-top: 5px;
-                padding-left: 2px;
-                padding-right: 2px;
-                padding-bottom: 5px;
+            fieldset{
+                border: 0;
             }
 
             div{
@@ -128,6 +119,19 @@
                 border-color: black;
                 padding: 5px;
                 background-color: rgba(255, 255, 255, 0.274);;
+            }
+
+            .clField{
+                display: inline;
+                width: 232px;
+                background-color: rgba(255, 255, 255, 0.699);  
+                border-color: black;
+                border-style: dotted;        
+                border-radius: 10px;
+                padding-top: 5px;
+                padding-left: 2px;
+                padding-right: 2px;
+                padding-bottom: 5px;
             }
 
             .clBotoes{
@@ -319,7 +323,7 @@
             for (let i = 0; i < custosBeneficio.length; i++) { // dado analisado
                 for (let index = 0; index < custosBeneficio.length; index++) { // dado comparado
                     
-                    if (custosBeneficio[i] > custosBeneficio[index]){
+                    if (custosBeneficio[i] < custosBeneficio[index]){
                         placeholderCustoBene = custosBeneficio[i]
                         custosBeneficio.splice(i, 1)
                         custosBeneficio.splice(index, 0, placeholderCustoBene)
@@ -360,7 +364,7 @@
             
             //criar nova linha para a tabela
             indexador = 0
-            
+
             for (let index = 0; index < diferençasCustoBene.length; index++) {
                 pizzaTr = montaTr(nomes, tamanhosFinais, preços, custosBeneficio, diferençasCustoBene)
 
@@ -370,6 +374,7 @@
             out.hidden = false
 
             document.querySelector("#idFieldOut").classList.add("clField")
+
         }
 
         // ------------------funções------------------
@@ -435,16 +440,16 @@
         // calculo de custo-benefício
         function calcularCustosBeneficio(areas, preços) {
             for (let y = 0; y < preços.length; y++) {
-                let custoBeneficio = areas[y]/preços[y]
-                custosBeneficio.push(custoBeneficio.toFixed(2))
+                let custoBeneficio = preços[y]/areas[y]
+                custosBeneficio.push(Number(custoBeneficio.toFixed(2)))
             }
             return custosBeneficio
         }
 
         //calculo de diferença de custo-benefício em porcentagem
         function calcularDiferCustoBene(custosBeneficio) {
-            for (let z = 1; z < custosBeneficio.length; z++) {
-                let diferença = ((custosBeneficio[z-1]*100)/custosBeneficio[z]) - 100
+            for (let z = 0; z < custosBeneficio.length - 1; z++) {
+                let diferença = ((custosBeneficio[z+1]*100)/custosBeneficio[z]) - 100
                 diferençasCustoBene.push(diferença.toFixed(0) + "%")
             }
             return diferençasCustoBene
